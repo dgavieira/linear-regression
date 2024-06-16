@@ -14,15 +14,16 @@ class Adaline:
         Seed for random number generator.
     """
     
-    def __init__(self, learning_rate=0.01, epochs=50, random_state=1):
+    def __init__(self, learning_rate=0.01, epochs=50, random_state=1, verbose=True):
         self.learning_rate = learning_rate
         self.epochs = epochs
         self.random_state = random_state
+        self.verbose = verbose
     
-    def fit(self, X, y):
+    def fit(self, X, y, verbose=False):
         """
         Fit training data.
-        
+
         Parameters
         ----------
         X : {array-like}, shape = [n_samples, n_features]
@@ -30,7 +31,9 @@ class Adaline:
             n_features is the number of features.
         y : array-like, shape = [n_samples]
             Target values.
-        
+        verbose : bool, optional (default=False)
+            If True, print debugging information during training.
+
         Returns
         -------
         self : object
@@ -39,7 +42,7 @@ class Adaline:
         self.w_ = rgen.normal(loc=0.0, scale=0.01, size=X.shape[1])
         self.b_ = np.float64(0.)
         self.cost_ = []
-        
+
         for _ in range(self.epochs):
             cost = 0
             for xi, target in zip(X, y):
@@ -51,6 +54,8 @@ class Adaline:
             self.cost_.append(cost)
             if np.isnan(cost) or np.isinf(cost):
                 raise ValueError("Cost function returned NaN or Inf. Adjust learning rate.")
+            if verbose:
+                print(f'Epoch {_}, Cost: {cost}')
         return self
     
     def net_input(self, X):
