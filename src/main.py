@@ -1,7 +1,7 @@
 from models.linear_regression import LinearRegression
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error
+from metrics.mean_squared_error import mean_squared_error_custom
 from metrics.pearson import pearsonr_custom
 
 
@@ -25,7 +25,7 @@ def main():
     # Calcular e imprimir os coeficientes de Pearson e os erros médios quadráticos para cada pasta
     for i, indices in enumerate(fold_indices):
         pearson = pearsonr_custom(y.iloc[indices].values.flatten(), y_pred[indices].flatten())
-        mse = mean_squared_error(y.iloc[indices].values.flatten(), y_pred[indices].flatten())
+        mse = mean_squared_error_custom(y.iloc[indices].values.flatten(), y_pred[indices].flatten())
         print(f'Pasta {i + 1}:')
         print(f'   Coeficiente de Pearson: {pearson}')
         print(f'   Erro médio quadrático: {mse}')
